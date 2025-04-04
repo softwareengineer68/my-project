@@ -35,10 +35,10 @@ app.get('/recipes', (req, res) => {
   db.query('SELECT * FROM recipes', (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);
-      res.status(500).send('Database error');
+      res.status(500).json({ message: 'Database error' }); // Sending error as JSON
       return;
     }
-    res.json(results);
+    res.json(results); // Send the results as JSON response
   });
 });
 
@@ -50,10 +50,10 @@ app.post('/add-recipe', (req, res) => {
   db.query(query, [name, ingredients, cooking_time], (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
-      res.status(500).send('Database error');
+      res.status(500).json({ message: 'Database error' }); // Sending error as JSON
       return;
     }
-    res.send('Recipe added successfully');
+    res.json({ message: 'Recipe added successfully' }); // Send success message as JSON
   });
 });
 
