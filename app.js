@@ -1,12 +1,15 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
-const port = 3000;
+
+// Vercel sets a custom port, so use it if it's available.
+const port = process.env.PORT || 3000;
 
 // Body-parser middleware to parse JSON data
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files (index.html)
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files (index.html)
 
 // Database connection setup using environment variables
 const db = mysql.createConnection({
@@ -42,7 +45,7 @@ app.get('/recipes', (req, res) => {
 app.post('/add-recipe', (req, res) => {
   const { name, ingredients, cooking_time } = req.body;
   const query = 'INSERT INTO recipes (name, ingredients, cooking_time) VALUES (?, ?, ?)';
-  
+
   db.query(query, [name, ingredients, cooking_time], (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
@@ -53,7 +56,12 @@ app.post('/add-recipe', (req, res) => {
   });
 });
 
+// Serve index.html on the root route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Adjust path as needed
+});
+
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
