@@ -1,23 +1,14 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "app.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "env": {
-      "DB_HOST": "bpiq9wp3873wyibgxtcp-mysql.services.clever-cloud.com",
-      "DB_USER": "urph6ydqlay2wokw",
-      "DB_PASSWORD": "mpmHvc0QmIE56u5pMyJk",
-      "DB_NAME": "bpiq9wp3873wyibgxtcp",
-      "DB_PORT": "3306"
-    },
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/app.js"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/recipes", "dest": "/api/index.js" },
+    { "src": "/add-recipe", "dest": "/api/index.js" },
+    { "src": "/", "dest": "/api/index.js" }
+  ]
+}
