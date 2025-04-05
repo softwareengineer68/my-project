@@ -6,4 +6,10 @@
       "use": "@vercel/node"
     },
   ]
+   "builds": [
+    {
+      "src": "public/index.html",
+      "use": "@vercel/node"
+    },
+  ]
 }
