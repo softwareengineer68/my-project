@@ -30,34 +30,34 @@ db.connect((err) => {
   console.log('Connected to the database');
 });
 
-// Route to fetch all recipes
-app.get('/recipes', (req, res) => {
+// ✅ Route to fetch all recipes (MUST start with /api)
+app.get('/api/recipes', (req, res) => {
   db.query('SELECT * FROM recipes', (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);
-      res.status(500).json({ message: 'Database error' }); // Sending error as JSON
+      res.status(500).json({ message: 'Database error' });
       return;
     }
-    res.json(results); // Send the results as JSON response
+    res.json(results);
   });
 });
 
-// Route to add a new recipe
-app.post('/add-recipe', (req, res) => {
+// ✅ Route to add a new recipe (MUST start with /api)
+app.post('/api/add-recipe', (req, res) => {
   const { name, ingredients, cooking_time } = req.body;
   const query = 'INSERT INTO recipes (name, ingredients, cooking_time) VALUES (?, ?, ?)';
 
   db.query(query, [name, ingredients, cooking_time], (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
-      res.status(500).json({ message: 'Database error' }); // Sending error as JSON
+      res.status(500).json({ message: 'Database error' });
       return;
     }
-    res.json({ message: 'Recipe added successfully' }); // Send success message as JSON
+    res.json({ message: 'Recipe added successfully' });
   });
 });
 
-// Serve the index.html page for the root route
+// Serve the index.html page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
